@@ -127,10 +127,8 @@
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	if (hud == nil)
-	{
-		hud = [[UIToolbar alloc] initWithFrame:CGRectZero];
-		hud.translucent = YES;
-		hud.backgroundColor = HUD_BACKGROUND_COLOR;
+	{        
+        hud = [[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:HUD_STYLE]];
 		hud.layer.cornerRadius = 10;
 		hud.layer.masksToBounds = YES;
 		[self registerNotifications];
@@ -154,13 +152,13 @@
 		spinner.color = HUD_SPINNER_COLOR;
 		spinner.hidesWhenStopped = YES;
 	}
-	if (spinner.superview == nil) [hud addSubview:spinner];
+	if (spinner.superview == nil) [hud.contentView addSubview:spinner];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	if (image == nil)
 	{
 		image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
 	}
-	if (image.superview == nil) [hud addSubview:image];
+	if (image.superview == nil) [hud.contentView addSubview:image];
 	//---------------------------------------------------------------------------------------------------------------------------------------------
 	if (label == nil)
 	{
@@ -172,7 +170,7 @@
 		label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		label.numberOfLines = 0;
 	}
-	if (label.superview == nil) [hud addSubview:label];
+	if (label.superview == nil) [hud.contentView addSubview:label];
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -308,7 +306,7 @@
 		hud.transform = CGAffineTransformScale(hud.transform, 1.4, 1.4);
 
 		NSUInteger options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseOut;
-		[UIView animateWithDuration:0.15 delay:0 options:options animations:^{
+		[UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:15 options:options animations:^{
 			hud.transform = CGAffineTransformScale(hud.transform, 1/1.4, 1/1.4);
 			hud.alpha = 1;
 		} completion:nil];
@@ -322,7 +320,7 @@
 	if (self.alpha == 1)
 	{
 		NSUInteger options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseIn;
-		[UIView animateWithDuration:0.15 delay:0 options:options animations:^{
+		[UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:options animations:^{
 			hud.transform = CGAffineTransformScale(hud.transform, 0.7, 0.7);
 			hud.alpha = 0;
 		}
